@@ -16,6 +16,7 @@ import { Route as ResetPasswordRouteImport } from './routes/reset-password'
 import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/app'
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedSetupRouteImport } from './routes/_authenticated/setup'
+import { Route as BSlugRouteImport } from './routes/b.$slug'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as AuthenticatedAppAvailabilityRouteImport } from './routes/_authenticated/app.availability'
 import { Route as AuthenticatedAppBookingsRouteImport } from './routes/_authenticated/app.bookings'
@@ -57,6 +58,11 @@ const AuthenticatedSetupRoute = AuthenticatedSetupRouteImport.update({
   id: '/setup',
   path: '/setup',
   getParentRoute: () => AuthenticatedRouteRoute,
+} as any)
+const BSlugRoute = BSlugRouteImport.update({
+  id: '/b/$slug',
+  path: '/b/$slug',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
   id: '/',
@@ -106,6 +112,7 @@ export interface FileRoutesByFullPath {
   '/app': typeof AuthenticatedAppRouteWithChildren
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/setup': typeof AuthenticatedSetupRoute
+  '/b/$slug': typeof BSlugRoute
   '/app/availability': typeof AuthenticatedAppAvailabilityRoute
   '/app/bookings': typeof AuthenticatedAppBookingsRoute
   '/app/dashboard': typeof AuthenticatedAppDashboardRoute
@@ -120,6 +127,7 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/setup': typeof AuthenticatedSetupRoute
+  '/b/$slug': typeof BSlugRoute
   '/app/availability': typeof AuthenticatedAppAvailabilityRoute
   '/app/bookings': typeof AuthenticatedAppBookingsRoute
   '/app/dashboard': typeof AuthenticatedAppDashboardRoute
@@ -137,6 +145,7 @@ export interface FileRoutesById {
   '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/setup': typeof AuthenticatedSetupRoute
+  '/b/$slug': typeof BSlugRoute
   '/_authenticated/app/availability': typeof AuthenticatedAppAvailabilityRoute
   '/_authenticated/app/bookings': typeof AuthenticatedAppBookingsRoute
   '/_authenticated/app/dashboard': typeof AuthenticatedAppDashboardRoute
@@ -154,6 +163,7 @@ export interface FileRouteTypes {
     | '/app'
     | '/onboarding'
     | '/setup'
+    | '/b/$slug'
     | '/app/availability'
     | '/app/bookings'
     | '/app/dashboard'
@@ -168,6 +178,7 @@ export interface FileRouteTypes {
     | '/reset-password'
     | '/onboarding'
     | '/setup'
+    | '/b/$slug'
     | '/app/availability'
     | '/app/bookings'
     | '/app/dashboard'
@@ -184,6 +195,7 @@ export interface FileRouteTypes {
     | '/_authenticated/app'
     | '/_authenticated/onboarding'
     | '/_authenticated/setup'
+    | '/b/$slug'
     | '/_authenticated/app/availability'
     | '/_authenticated/app/bookings'
     | '/_authenticated/app/dashboard'
@@ -198,6 +210,7 @@ export interface RootRouteChildren {
   AuthenticatedRouteRoute: typeof AuthenticatedRouteRouteWithChildren
   AuthRoute: typeof AuthRoute
   ResetPasswordRoute: typeof ResetPasswordRoute
+  BSlugRoute: typeof BSlugRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -250,6 +263,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/setup'
       preLoaderRoute: typeof AuthenticatedSetupRouteImport
       parentRoute: typeof AuthenticatedRouteRoute
+    }
+    '/b/$slug': {
+      id: '/b/$slug'
+      path: '/b/$slug'
+      fullPath: '/b/$slug'
+      preLoaderRoute: typeof BSlugRouteImport
+      parentRoute: typeof rootRouteImport
     }
     '/_authenticated/app/': {
       id: '/_authenticated/app/'
@@ -346,6 +366,7 @@ const rootRouteChildren: RootRouteChildren = {
   AuthenticatedRouteRoute: AuthenticatedRouteRouteWithChildren,
   AuthRoute: AuthRoute,
   ResetPasswordRoute: ResetPasswordRoute,
+  BSlugRoute: BSlugRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
