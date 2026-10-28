@@ -14,6 +14,7 @@ import { Field } from "@/components/field";
 import { GoogleIcon } from "@/components/brand";
 import { copy } from "@/lib/copy";
 import { REDIRECT_KEY } from "@/lib/account";
+import { signUpWithBrevo, resetPasswordWithBrevo } from "@/lib/auth-email.functions";
 
 const loginSchema = z.object({ email: z.string().trim().email("Enter a valid email"), password: z.string().min(1, "Enter your password") });
 const signupSchema = z.object({
@@ -104,16 +105,14 @@ function LoginForm({ onSignedIn, onForgot }: { onSignedIn: () => void; onForgot:
 function SignupForm({ redirect, onSent, onSignedIn }: { redirect?: string; onSent: (e: string) => void; onSignedIn: () => void }) {
   const f = useForm<z.infer<typeof signupSchema>>({ resolver: zodResolver(signupSchema), defaultValues: { full_name: "", email: "", password: "" } });
   const submit = f.handleSubmit(async (v) => {
-    const back = `${window.location.origin}/auth${redirect ? `?redirect=${encodeURIComponent(redirect)}` : ""}`;
-    const { data, error } = await supabase.auth.signUp({
-      email: v.email,
-      password: v.password,
-      options: { emailRedirectTo: back, data: { full_name: v.full_name } },
-    });
-    if (error) return toast.error(error.message);
-    if (data.session) onSignedIn();
-    else onSent(v.email);
+    try {
+      await signUpWithBrevo({ data: { ...v, origin: window.location.origin, redirect } });
+      onSent(v.email);
+    } catch (e) {
+      toast.error(e instanceof Error ? e.message : copy.common.errorGeneric);
+    }
   });
+  void onSignedIn;
   return (
     <form onSubmit={submit} className="space-y-4" noValidate>
       <Field label={copy.auth.name} htmlFor="s-name" error={f.formState.errors.full_name?.message}>
@@ -135,8 +134,11 @@ function SignupForm({ redirect, onSent, onSignedIn }: { redirect?: string; onSen
 function ForgotDialog({ open, onOpenChange }: { open: boolean; onOpenChange: (o: boolean) => void }) {
   const f = useForm<{ email: string }>({ resolver: zodResolver(z.object({ email: z.string().trim().email("Enter a valid email") })), defaultValues: { email: "" } });
   const submit = f.handleSubmit(async ({ email }) => {
-    const { error } = await supabase.auth.resetPasswordForEmail(email, { redirectTo: `${window.location.origin}/reset-password` });
-    if (error) return toast.error(error.message);
+    try {
+      await resetPasswordWithBrevo({ data: { email, origin: window.location.origin } });
+    } catch (e) {
+      return toast.error(e instanceof Error ? e.message : copy.common.errorGeneric);
+    }
     toast.success(copy.auth.resetSent);
     onOpenChange(false);
   });
