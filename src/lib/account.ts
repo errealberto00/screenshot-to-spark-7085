@@ -23,9 +23,12 @@ export const accountQuery = queryOptions({
   queryKey: ["account"],
   staleTime: 30_000,
   queryFn: async (): Promise<Account | null> => {
-    const { data } = await supabase.auth.getUser();
+    const { data, error } = await supabase.auth.getUser();
     const user = data.user;
-    if (!user) return null;
+    if (!user) {
+      if (error) await supabase.auth.signOut({ scope: "local" });
+      return null;
+    }
     const [roles, profile, business] = await Promise.all([
       supabase.from("user_roles").select("role").eq("user_id", user.id),
       supabase.from("profiles").select("*").eq("id", user.id).maybeSingle(),
