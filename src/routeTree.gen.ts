@@ -18,6 +18,7 @@ import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authentic
 import { Route as AuthenticatedSetupRouteImport } from './routes/_authenticated/setup'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as AuthenticatedAppAvailabilityRouteImport } from './routes/_authenticated/app.availability'
+import { Route as AuthenticatedAppDashboardRouteImport } from './routes/_authenticated/app.dashboard'
 import { Route as AuthenticatedAppProfileRouteImport } from './routes/_authenticated/app.profile'
 import { Route as AuthenticatedAppServicesRouteImport } from './routes/_authenticated/app.services'
 import { Route as AuthenticatedAppSettingsRouteImport } from './routes/_authenticated/app.settings'
@@ -67,6 +68,12 @@ const AuthenticatedAppAvailabilityRoute =
     path: '/availability',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const AuthenticatedAppDashboardRoute =
+  AuthenticatedAppDashboardRouteImport.update({
+    id: '/dashboard',
+    path: '/dashboard',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const AuthenticatedAppProfileRoute = AuthenticatedAppProfileRouteImport.update({
   id: '/profile',
   path: '/profile',
@@ -93,6 +100,7 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/setup': typeof AuthenticatedSetupRoute
   '/app/availability': typeof AuthenticatedAppAvailabilityRoute
+  '/app/dashboard': typeof AuthenticatedAppDashboardRoute
   '/app/profile': typeof AuthenticatedAppProfileRoute
   '/app/services': typeof AuthenticatedAppServicesRoute
   '/app/settings': typeof AuthenticatedAppSettingsRoute
@@ -105,6 +113,7 @@ export interface FileRoutesByTo {
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/setup': typeof AuthenticatedSetupRoute
   '/app/availability': typeof AuthenticatedAppAvailabilityRoute
+  '/app/dashboard': typeof AuthenticatedAppDashboardRoute
   '/app/profile': typeof AuthenticatedAppProfileRoute
   '/app/services': typeof AuthenticatedAppServicesRoute
   '/app/settings': typeof AuthenticatedAppSettingsRoute
@@ -120,6 +129,7 @@ export interface FileRoutesById {
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/setup': typeof AuthenticatedSetupRoute
   '/_authenticated/app/availability': typeof AuthenticatedAppAvailabilityRoute
+  '/_authenticated/app/dashboard': typeof AuthenticatedAppDashboardRoute
   '/_authenticated/app/profile': typeof AuthenticatedAppProfileRoute
   '/_authenticated/app/services': typeof AuthenticatedAppServicesRoute
   '/_authenticated/app/settings': typeof AuthenticatedAppSettingsRoute
@@ -135,6 +145,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/setup'
     | '/app/availability'
+    | '/app/dashboard'
     | '/app/profile'
     | '/app/services'
     | '/app/settings'
@@ -147,6 +158,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/setup'
     | '/app/availability'
+    | '/app/dashboard'
     | '/app/profile'
     | '/app/services'
     | '/app/settings'
@@ -161,6 +173,7 @@ export interface FileRouteTypes {
     | '/_authenticated/onboarding'
     | '/_authenticated/setup'
     | '/_authenticated/app/availability'
+    | '/_authenticated/app/dashboard'
     | '/_authenticated/app/profile'
     | '/_authenticated/app/services'
     | '/_authenticated/app/settings'
@@ -239,6 +252,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppAvailabilityRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/dashboard': {
+      id: '/_authenticated/app/dashboard'
+      path: '/dashboard'
+      fullPath: '/app/dashboard'
+      preLoaderRoute: typeof AuthenticatedAppDashboardRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/_authenticated/app/profile': {
       id: '/_authenticated/app/profile'
       path: '/profile'
@@ -265,6 +285,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAppRouteChildren {
   AuthenticatedAppAvailabilityRoute: typeof AuthenticatedAppAvailabilityRoute
+  AuthenticatedAppDashboardRoute: typeof AuthenticatedAppDashboardRoute
   AuthenticatedAppProfileRoute: typeof AuthenticatedAppProfileRoute
   AuthenticatedAppServicesRoute: typeof AuthenticatedAppServicesRoute
   AuthenticatedAppSettingsRoute: typeof AuthenticatedAppSettingsRoute
@@ -273,6 +294,7 @@ interface AuthenticatedAppRouteChildren {
 
 const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppAvailabilityRoute: AuthenticatedAppAvailabilityRoute,
+  AuthenticatedAppDashboardRoute: AuthenticatedAppDashboardRoute,
   AuthenticatedAppProfileRoute: AuthenticatedAppProfileRoute,
   AuthenticatedAppServicesRoute: AuthenticatedAppServicesRoute,
   AuthenticatedAppSettingsRoute: AuthenticatedAppSettingsRoute,
