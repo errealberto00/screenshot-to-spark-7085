@@ -17,6 +17,8 @@ import { Route as AuthenticatedAppRouteImport } from './routes/_authenticated/ap
 import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authenticated/onboarding'
 import { Route as AuthenticatedSetupRouteImport } from './routes/_authenticated/setup'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
+import { Route as AuthenticatedAppAvailabilityRouteImport } from './routes/_authenticated/app.availability'
+import { Route as AuthenticatedAppServicesRouteImport } from './routes/_authenticated/app.services'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
@@ -57,6 +59,18 @@ const AuthenticatedAppIndexRoute = AuthenticatedAppIndexRouteImport.update({
   path: '/',
   getParentRoute: () => AuthenticatedAppRoute,
 } as any)
+const AuthenticatedAppAvailabilityRoute =
+  AuthenticatedAppAvailabilityRouteImport.update({
+    id: '/availability',
+    path: '/availability',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
+const AuthenticatedAppServicesRoute =
+  AuthenticatedAppServicesRouteImport.update({
+    id: '/services',
+    path: '/services',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -65,6 +79,8 @@ export interface FileRoutesByFullPath {
   '/app': typeof AuthenticatedAppRouteWithChildren
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/setup': typeof AuthenticatedSetupRoute
+  '/app/availability': typeof AuthenticatedAppAvailabilityRoute
+  '/app/services': typeof AuthenticatedAppServicesRoute
   '/app/': typeof AuthenticatedAppIndexRoute
 }
 export interface FileRoutesByTo {
@@ -73,6 +89,8 @@ export interface FileRoutesByTo {
   '/reset-password': typeof ResetPasswordRoute
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/setup': typeof AuthenticatedSetupRoute
+  '/app/availability': typeof AuthenticatedAppAvailabilityRoute
+  '/app/services': typeof AuthenticatedAppServicesRoute
   '/app': typeof AuthenticatedAppIndexRoute
 }
 export interface FileRoutesById {
@@ -84,6 +102,8 @@ export interface FileRoutesById {
   '/_authenticated/app': typeof AuthenticatedAppRouteWithChildren
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/setup': typeof AuthenticatedSetupRoute
+  '/_authenticated/app/availability': typeof AuthenticatedAppAvailabilityRoute
+  '/_authenticated/app/services': typeof AuthenticatedAppServicesRoute
   '/_authenticated/app/': typeof AuthenticatedAppIndexRoute
 }
 export interface FileRouteTypes {
@@ -95,9 +115,19 @@ export interface FileRouteTypes {
     | '/app'
     | '/onboarding'
     | '/setup'
+    | '/app/availability'
+    | '/app/services'
     | '/app/'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/auth' | '/reset-password' | '/onboarding' | '/setup' | '/app'
+  to:
+    | '/'
+    | '/auth'
+    | '/reset-password'
+    | '/onboarding'
+    | '/setup'
+    | '/app/availability'
+    | '/app/services'
+    | '/app'
   id:
     | '__root__'
     | '/'
@@ -107,6 +137,8 @@ export interface FileRouteTypes {
     | '/_authenticated/app'
     | '/_authenticated/onboarding'
     | '/_authenticated/setup'
+    | '/_authenticated/app/availability'
+    | '/_authenticated/app/services'
     | '/_authenticated/app/'
   fileRoutesById: FileRoutesById
 }
@@ -175,14 +207,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppIndexRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/availability': {
+      id: '/_authenticated/app/availability'
+      path: '/availability'
+      fullPath: '/app/availability'
+      preLoaderRoute: typeof AuthenticatedAppAvailabilityRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
+    '/_authenticated/app/services': {
+      id: '/_authenticated/app/services'
+      path: '/services'
+      fullPath: '/app/services'
+      preLoaderRoute: typeof AuthenticatedAppServicesRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
   }
 }
 
 interface AuthenticatedAppRouteChildren {
+  AuthenticatedAppAvailabilityRoute: typeof AuthenticatedAppAvailabilityRoute
+  AuthenticatedAppServicesRoute: typeof AuthenticatedAppServicesRoute
   AuthenticatedAppIndexRoute: typeof AuthenticatedAppIndexRoute
 }
 
 const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
+  AuthenticatedAppAvailabilityRoute: AuthenticatedAppAvailabilityRoute,
+  AuthenticatedAppServicesRoute: AuthenticatedAppServicesRoute,
   AuthenticatedAppIndexRoute: AuthenticatedAppIndexRoute,
 }
 
