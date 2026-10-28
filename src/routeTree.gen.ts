@@ -18,6 +18,7 @@ import { Route as AuthenticatedOnboardingRouteImport } from './routes/_authentic
 import { Route as AuthenticatedSetupRouteImport } from './routes/_authenticated/setup'
 import { Route as AuthenticatedAppIndexRouteImport } from './routes/_authenticated/app.index'
 import { Route as AuthenticatedAppAvailabilityRouteImport } from './routes/_authenticated/app.availability'
+import { Route as AuthenticatedAppBookingsRouteImport } from './routes/_authenticated/app.bookings'
 import { Route as AuthenticatedAppDashboardRouteImport } from './routes/_authenticated/app.dashboard'
 import { Route as AuthenticatedAppProfileRouteImport } from './routes/_authenticated/app.profile'
 import { Route as AuthenticatedAppServicesRouteImport } from './routes/_authenticated/app.services'
@@ -68,6 +69,12 @@ const AuthenticatedAppAvailabilityRoute =
     path: '/availability',
     getParentRoute: () => AuthenticatedAppRoute,
   } as any)
+const AuthenticatedAppBookingsRoute =
+  AuthenticatedAppBookingsRouteImport.update({
+    id: '/bookings',
+    path: '/bookings',
+    getParentRoute: () => AuthenticatedAppRoute,
+  } as any)
 const AuthenticatedAppDashboardRoute =
   AuthenticatedAppDashboardRouteImport.update({
     id: '/dashboard',
@@ -100,6 +107,7 @@ export interface FileRoutesByFullPath {
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/setup': typeof AuthenticatedSetupRoute
   '/app/availability': typeof AuthenticatedAppAvailabilityRoute
+  '/app/bookings': typeof AuthenticatedAppBookingsRoute
   '/app/dashboard': typeof AuthenticatedAppDashboardRoute
   '/app/profile': typeof AuthenticatedAppProfileRoute
   '/app/services': typeof AuthenticatedAppServicesRoute
@@ -113,6 +121,7 @@ export interface FileRoutesByTo {
   '/onboarding': typeof AuthenticatedOnboardingRoute
   '/setup': typeof AuthenticatedSetupRoute
   '/app/availability': typeof AuthenticatedAppAvailabilityRoute
+  '/app/bookings': typeof AuthenticatedAppBookingsRoute
   '/app/dashboard': typeof AuthenticatedAppDashboardRoute
   '/app/profile': typeof AuthenticatedAppProfileRoute
   '/app/services': typeof AuthenticatedAppServicesRoute
@@ -129,6 +138,7 @@ export interface FileRoutesById {
   '/_authenticated/onboarding': typeof AuthenticatedOnboardingRoute
   '/_authenticated/setup': typeof AuthenticatedSetupRoute
   '/_authenticated/app/availability': typeof AuthenticatedAppAvailabilityRoute
+  '/_authenticated/app/bookings': typeof AuthenticatedAppBookingsRoute
   '/_authenticated/app/dashboard': typeof AuthenticatedAppDashboardRoute
   '/_authenticated/app/profile': typeof AuthenticatedAppProfileRoute
   '/_authenticated/app/services': typeof AuthenticatedAppServicesRoute
@@ -145,6 +155,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/setup'
     | '/app/availability'
+    | '/app/bookings'
     | '/app/dashboard'
     | '/app/profile'
     | '/app/services'
@@ -158,6 +169,7 @@ export interface FileRouteTypes {
     | '/onboarding'
     | '/setup'
     | '/app/availability'
+    | '/app/bookings'
     | '/app/dashboard'
     | '/app/profile'
     | '/app/services'
@@ -173,6 +185,7 @@ export interface FileRouteTypes {
     | '/_authenticated/onboarding'
     | '/_authenticated/setup'
     | '/_authenticated/app/availability'
+    | '/_authenticated/app/bookings'
     | '/_authenticated/app/dashboard'
     | '/_authenticated/app/profile'
     | '/_authenticated/app/services'
@@ -252,6 +265,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedAppAvailabilityRouteImport
       parentRoute: typeof AuthenticatedAppRoute
     }
+    '/_authenticated/app/bookings': {
+      id: '/_authenticated/app/bookings'
+      path: '/bookings'
+      fullPath: '/app/bookings'
+      preLoaderRoute: typeof AuthenticatedAppBookingsRouteImport
+      parentRoute: typeof AuthenticatedAppRoute
+    }
     '/_authenticated/app/dashboard': {
       id: '/_authenticated/app/dashboard'
       path: '/dashboard'
@@ -285,6 +305,7 @@ declare module '@tanstack/react-router' {
 
 interface AuthenticatedAppRouteChildren {
   AuthenticatedAppAvailabilityRoute: typeof AuthenticatedAppAvailabilityRoute
+  AuthenticatedAppBookingsRoute: typeof AuthenticatedAppBookingsRoute
   AuthenticatedAppDashboardRoute: typeof AuthenticatedAppDashboardRoute
   AuthenticatedAppProfileRoute: typeof AuthenticatedAppProfileRoute
   AuthenticatedAppServicesRoute: typeof AuthenticatedAppServicesRoute
@@ -294,6 +315,7 @@ interface AuthenticatedAppRouteChildren {
 
 const AuthenticatedAppRouteChildren: AuthenticatedAppRouteChildren = {
   AuthenticatedAppAvailabilityRoute: AuthenticatedAppAvailabilityRoute,
+  AuthenticatedAppBookingsRoute: AuthenticatedAppBookingsRoute,
   AuthenticatedAppDashboardRoute: AuthenticatedAppDashboardRoute,
   AuthenticatedAppProfileRoute: AuthenticatedAppProfileRoute,
   AuthenticatedAppServicesRoute: AuthenticatedAppServicesRoute,
