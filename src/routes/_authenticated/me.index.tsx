@@ -30,7 +30,7 @@ const myBookingsQuery = queryOptions({
     return data;
   },
 });
-type Row = Awaited<ReturnType<typeof myBookingsQuery.queryFn>>[number];
+type Row = Awaited<ReturnType<NonNullable<typeof myBookingsQuery.queryFn>>>[number];
 
 function MyBookings() {
   const { data } = useSuspenseQuery(myBookingsQuery);
